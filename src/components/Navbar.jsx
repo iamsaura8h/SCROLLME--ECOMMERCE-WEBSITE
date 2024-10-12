@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import { ShoppingCartOutlined } from "@mui/icons-material";
+import { DarkModeOutlined, LightModeOutlined } from "@mui/icons-material"; // Add LightModeOutlined icon
 import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -24,10 +25,10 @@ const Wrapper = styled.div`
   align-items: center;
   ${mobile({
     height: "90px",
-    padding: "10px 10px", // Reduced padding for smaller screens
-    flexDirection: "column", // Stack items vertically
+    padding: "10px 10px", 
+    flexDirection: "column", 
     justifyContent: "space-evenly",
-    alignItems: "center", // Align items to the start
+    alignItems: "center",
   })}
 `;
 
@@ -55,6 +56,7 @@ const Input = styled.input`
   border: none;
   margin: "auto" ${mobile({ width: "200px;", margin: "0 auto" })};
 `;
+
 const Center = styled.div`
   flex: 1;
   text-align: center;
@@ -64,6 +66,7 @@ const Logo = styled.h1`
   font-weight: bold;
   ${mobile({ fontSize: "24px;" })}
 `;
+
 const Right = styled.div`
   flex: 1;
   display: flex;
@@ -80,6 +83,12 @@ const MenuItem = styled.div`
 `;
 
 const Navbar = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false); // Initial state
+
+  const toggleDarkMode = () => {
+    setIsDarkMode((prevMode) => !prevMode); // Toggle state
+  };
+
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 
   return (
@@ -114,6 +123,9 @@ const Navbar = () => {
             <Link to="/cart">
               <ShoppingCartOutlined />
             </Link>
+          </MenuItem>
+          <MenuItem onClick={toggleDarkMode}> {/* Icon toggle */}
+            {isDarkMode ? <LightModeOutlined /> : <DarkModeOutlined />}
           </MenuItem>
         </Right>
       </Wrapper>
